@@ -246,6 +246,9 @@ sub edit_shell_conf_file {
     
     # Perl Library and PATH setting
     push @lines, $self->_set_env_command('PATH', "$install_dir/bin:\$PATH");
+    push @lines, "env | grep PERL5LIB= > /dev/null || " 
+               . $self->_set_env_command('PERL5LIB', '');
+    
     push @lines, $self->_set_env_command('PERL5LIB',
                                          "$install_dir/lib/perl5:" .
                                          "$install_dir/lib/perl5/site_perl:" . 
@@ -359,8 +362,7 @@ sub _set_env_command_export {
     return unless $name;
     
     # Command for setting env
-    my $command = "$name=$value;" if $value;
-    $command   .= "export $name;";
+    my $command = "export $name=$value;" if defined $value;
     
     return $command;
 }
