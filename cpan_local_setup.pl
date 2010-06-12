@@ -248,7 +248,8 @@ sub edit_shell_conf_file {
     push @lines, $self->_set_env_command('PATH', "$install_dir/bin:\$PATH");
     push @lines, $self->_set_env_command('PERL5LIB',
                                          "$install_dir/lib/perl5:" .
-                                         "$install_dir/lib/perl5/site_perl");
+                                         "$install_dir/lib/perl5/site_perl:" . 
+                                         "\$PERL5LIB");
     
     # Free BSD
     if ($self->os eq 'freebsd') {
